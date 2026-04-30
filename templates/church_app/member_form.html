@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ action }} Member - Church Management System{% endblock %}
+
+{% block content %}
+<div class="topbar">
+    <h1><i class="bi bi-person"></i> {{ action }} Member</h1>
+    <div>
+        <a href="{% url 'member_list' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back
+        </a>
+    </div>
+</div>
+
+<div class="content-card">
+    <div class="header">
+        <h5>Member Information</h5>
+    </div>
+    <div class="body">
+        <form method="post" class="row g-3">
+            {% csrf_token %}
+            
+            <div class="col-md-6">
+                <label class="form-label">Full Name *</label>
+                {{ form.name }}
+            </div>
+            
+            <div class="col-md-6">
+                <label class="form-label">Phone Number</label>
+                {{ form.phone }}
+            </div>
+            
+            <div class="col-md-6">
+                <label class="form-label">Email Address</label>
+                {{ form.email }}
+            </div>
+            
+            <div class="col-md-6">
+                <label class="form-label">Gender</label>
+                {{ form.gender }}
+            </div>
+            
+            <div class="col-md-6">
+                <label class="form-label">Department</label>
+                {{ form.department }}
+            </div>
+            
+            <div class="col-md-6">
+                <label class="form-label">Date Joined</label>
+                {{ form.date_joined }}
+            </div>
+            
+            <div class="col-12">
+                <label class="form-label">Address</label>
+                {{ form.address }}
+            </div>
+            
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg"></i> {{ action }} Member
+                </button>
+                <a href="{% url 'member_list' %}" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

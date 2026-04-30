@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %}Mark Attendance - Church Management System{% endblock %}
+
+{% block content %}
+<div class="topbar">
+    <h1><i class="bi bi-calendar-check"></i> Mark Attendance</h1>
+    <div>
+        <a href="{% url 'attendance_list' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back
+        </a>
+    </div>
+</div>
+
+<div class="content-card">
+    <div class="header">
+        <h5>Attendance Form</h5>
+    </div>
+    <div class="body">
+        <form method="post" id="attendanceForm">
+            {% csrf_token %}
+            
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <label class="form-label">Date</label>
+                    <input type="date" name="date" class="form-control" value="{{ date }}" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Service Type</label>
+                    <input type="text" name="service_type" class="form-control" value="{{ service_type }}" required>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-success w-100">
+                        <i class="bi bi-check-lg"></i> Save Attendance
+                    </button>
+                </div>
+            </div>
+            
+            {% if members %}
+            <div class="table-container">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">
+                                <input type="checkbox" id="selectAll" class="form-check-input">
+                            </th>
+                            <th>Member Name</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member in members %}
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="member_ids" value="{{ member.pk }}" class="form-check-input member-checkbox"
+                                    {% if member.pk in existing_attendance %}checked{% endif %}>
+                            </td>
+                            <td>{{ member.name }}</td>
+                            <td>{{ member.department }}</td>
+                            <td>
+                                <select name="status_{{ member.pk }}" class="form-select form-select-sm" style="width: auto;">
+                                    <option value="Present" {% if existing_attendance|get_item:member.pk == 'Present' %}selected{% endif %}>Present</option>
+                                    <option value="Absent" {% if existing_attendance|get_item:member.pk == 'Absent' %}selected{% endif %}>Absent</option>
+                                </select>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-5">
+                <i class="bi bi-people display-1 text-muted"></i>
+                <p class="mt-3 text-muted">No members available. <a href="{% url 'member_add' %}">Add members first</a>.</p>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('selectAll').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('.member-checkbox');
+        checkboxes.forEach(cb => cb.checked = this.checked);
+    });
+</script>
+{% endblock %}

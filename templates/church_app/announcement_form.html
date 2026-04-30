@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ action }} Announcement - Church Management System{% endblock %}
+
+{% block content %}
+<div class="topbar">
+    <h1><i class="bi bi-megaphone"></i> {{ action }} Announcement</h1>
+    <div>
+        <a href="{% url 'announcement_list' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back
+        </a>
+    </div>
+</div>
+
+<div class="content-card">
+    <div class="header">
+        <h5>Announcement Details</h5>
+    </div>
+    <div class="body">
+        <form method="post" class="row g-3">
+            {% csrf_token %}
+            
+            <div class="col-12">
+                <label class="form-label">Title *</label>
+                {{ form.title }}
+            </div>
+            
+            <div class="col-12">
+                <label class="form-label">Message *</label>
+                {{ form.message }}
+            </div>
+            
+            <div class="col-12">
+                <div class="form-check">
+                    {{ form.is_active }}
+                    <label class="form-check-label">Active</label>
+                </div>
+            </div>
+            
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg"></i> {{ action }} Announcement
+                </button>
+                <a href="{% url 'announcement_list' %}" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

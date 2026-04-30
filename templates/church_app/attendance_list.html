@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Attendance - Church Management System{% endblock %}
+
+{% block content %}
+<div class="topbar">
+    <h1><i class="bi bi-calendar-check"></i> Attendance</h1>
+    <div>
+        <a href="{% url 'attendance_mark' %}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> Mark Attendance
+        </a>
+    </div>
+</div>
+
+<div class="content-card">
+    <div class="header">
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <h5 class="mb-0">Attendance Records</h5>
+            <form method="get" class="d-flex gap-2">
+                <input type="date" name="date" class="form-control" value="{{ date_filter }}">
+                <select name="service" class="form-select" style="width: auto;">
+                    <option value="">All Services</option>
+                    {% for service in services %}
+                    <option value="{{ service }}" {% if service_filter == service %}selected{% endif %}>{{ service }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-outline-primary">
+                    <i class="bi bi-search"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="body">
+        {% if attendances %}
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <div class="stat-card success">
+                    <div class="label">Present</div>
+                    <div class="value">{{ attendances|length }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="table-container">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Member</th>
+                        <th>Date</th>
+                        <th>Service</th>
+                        <th>Status</th>
+                        <th>Marked By</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for attendance in attendances %}
+                    <tr>
+                        <td>{{ attendance.member.name }}</td>
+                        <td>{{ attendance.date|date:"M d, Y" }}</td>
+                        <td>{{ attendance.service_type }}</td>
+                        <td>
+                            {% if attendance.status == 'Present' %}
+                            <span class="badge bg-success">Present</span>
+                            {% else %}
+                            <span class="badge bg-danger">Absent</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ attendance.marked_by.username|default:"System" }}</td>
+                        <td>
+                            <a href="{% url 'attendance_delete' attendance.pk %}" class="btn btn-sm btn-danger btn-icon">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="bi bi-calendar-x display-1 text-muted"></i>
+            <p class="mt-3 text-muted">No attendance records found.</p>
+            <a href="{% url 'attendance_mark' %}" class="btn btn-primary">Mark Attendance</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

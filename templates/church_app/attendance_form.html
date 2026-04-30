@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ action }} Attendance - Church Management System{% endblock %}
+
+{% block content %}
+<div class="topbar">
+    <h1><i class="bi bi-calendar-check"></i> {{ action }} Attendance</h1>
+    <div>
+        <a href="{% url 'attendance_list' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back
+        </a>
+    </div>
+</div>
+
+<div class="content-card">
+    <div class="header">
+        <h5>Attendance Record</h5>
+    </div>
+    <div class="body">
+        <form method="post" class="row g-3">
+            {% csrf_token %}
+            
+            <div class="col-md-6">
+                <label class="form-label">Member *</label>
+                {{ form.member }}
+            </div>
+            
+            <div class="col-md-6">
+                <label class="form-label">Date *</label>
+                {{ form.date }}
+            </div>
+            
+            <div class="col-md-6">
+                <label class="form-label">Status</label>
+                {{ form.status }}
+            </div>
+            
+            <div class="col-md-6">
+                <label class="form-label">Service Type</label>
+                {{ form.service_type }}
+            </div>
+            
+            <div class="col-12">
+                <label class="form-label">Notes</label>
+                {{ form.notes }}
+            </div>
+            
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg"></i> {{ action }} Attendance
+                </button>
+                <a href="{% url 'attendance_list' %}" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

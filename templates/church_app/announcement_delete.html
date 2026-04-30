@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Announcement - Church Management System{% endblock %}
+
+{% block content %}
+<div class="topbar">
+    <h1><i class="bi bi-trash"></i> Delete Announcement</h1>
+</div>
+
+<div class="content-card">
+    <div class="header bg-danger text-white">
+        <h5 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Confirm Delete</h5>
+    </div>
+    <div class="body text-center py-5">
+        <i class="bi bi-megaphone display-1 text-danger"></i>
+        <h4 class="mt-3">Are you sure?</h4>
+        <p class="text-muted">You are about to delete this announcement:</p>
+        <p class="fw-bold">{{ announcement.title }}</p>
+        <p class="text-danger">This action cannot be undone!</p>
+        
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Yes, Delete
+            </button>
+            <a href="{% url 'announcement_list' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-x-lg"></i> Cancel
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}
