@@ -28,4 +28,9 @@ urlpatterns = [
     path('announcements/add/', views.announcement_add, name='announcement_add'),
     path('announcements/<int:pk>/edit/', views.announcement_edit, name='announcement_edit'),
     path('announcements/<int:pk>/delete/', views.announcement_delete, name='announcement_delete'),
+    
+    # Real-time API Endpoints
+    path('api/members/', views.api_members, name='api_members'),
+    path('api/announcements/', views.api_announcements, name='api_announcements'),
+    path('api/attendance/stats/', views.api_attendance_stats, name='api_attendance_stats'),
 ]
