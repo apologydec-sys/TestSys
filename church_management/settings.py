@@ -17,7 +17,7 @@ SECRET_KEY = 'django-insecure-church-management-secret-key-2024'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://testsys.onrender.com','testsys.onrender.com']
 
 
 # Application definition
